@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QTranslator>
 #include <QLocale>
+#include <QDir>
 #include <QLockFile>
 
 int main(int argc, char *argv[])
@@ -9,7 +10,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     QString user = QProcessEnvironment::systemEnvironment().value("USER");
-    QLockFile lockfile("/var/lock/mx-usb-unmounter_" + user + ".lock");
+    QLockFile lockfile(QDir::temp().absoluteFilePath("mx-usb-unmounter_" + user + ".lock"));
     if (!lockfile.tryLock())
         return EXIT_FAILURE;
 
